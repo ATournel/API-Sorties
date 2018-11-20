@@ -16,3 +16,12 @@
 * [Mobile Model made on Marvelapp](https://marvelapp.com/53agga1/screen/50334311)
 
 * [Desktop Model also made on Marvelapp](https://marvelapp.com/53agga1/screen/50349625)
+
+#### ----- Development tools -----
+
+* Java
+* Eclipse
+* Angular
+* VS Code
+* CSS
+* BootStrap
