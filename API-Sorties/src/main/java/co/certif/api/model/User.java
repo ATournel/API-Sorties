@@ -18,20 +18,22 @@ public class User {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@NotBlank
 	@Column(name = "idUser")
-	int idUser;
+	Long idUser;
 	String nomUser;
 	String prenomUser;
 	String urlPhotoProfil;
+	@Column(unique=true)
 	String mailUser;
+	String password;
+	
 	@OneToMany
 	private Collection<Tag> tags;
 	
-	public int getIdUser() {
+	public Long getIdUser() {
 		return idUser;
 	}
-	public void setIdUser(int idUser) {
+	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
 	}
 	public String getNomUser() {
@@ -58,5 +60,10 @@ public class User {
 	public void setMailUser(String mailUser) {
 		this.mailUser = mailUser;
 	}
-	
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }
