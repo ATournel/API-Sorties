@@ -28,11 +28,25 @@ public class UserController {
 	}
 	
 	
-	//Get user by its id
+	//Get user by its sign in
+	
 	@CrossOrigin
-	@GetMapping("/{id}")
-	public User getUserById(@PathVariable(value="id") Long id) {
-		return userRepo.findOne(id);
+	@PostMapping("/signin")
+	public User getUserSignIn(@RequestBody User signInUser) {
+		User bddUser = userRepo.findByMailUser(signInUser.getMailUser());
+		if (bddUser != null) {
+
+			if(signInUser.getPassword().equals(bddUser.getPassword())) {
+				System.out.println("ok!");
+			}
+			else {
+				System.out.println("not ok!");
+			}
+		}
+		else {
+			System.out.println("User not found!");
+		}
+		return bddUser;
 	}
 	
 }

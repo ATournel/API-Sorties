@@ -2,8 +2,11 @@ package co.certif.api.controller;
 
 import java.util.List;
 
+
 import org.hibernate.annotations.OrderBy;
+import org.skife.jdbi.v2.sqlobject.customizers.MaxRows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +38,7 @@ public class ActiviteController {
 	@GetMapping("/all")
 	@OrderBy(clause = "date_activite DESC")
 	public List<Activite> getActivites() {
-		return actiRepo.findAll();
+		return actiRepo.findAll(new Sort(Sort.Direction.DESC, "dateActivite"));
 	}
 	
 	//Read one activity using its id
@@ -49,7 +52,7 @@ public class ActiviteController {
 	@CrossOrigin
 	@GetMapping("/tag={idTag}")
 	public List<Activite> getActivitesByTag(@PathVariable(value="idTag") Long idTag) {
-		return actiRepo.findByTag(tagRepo.findOne(idTag));
+		return actiRepo.findByTag(tagRepo.findOne(idTag), new Sort(Sort.Direction.DESC, "dateActivite"));
 	}
 	
 	//Delete an activity using its id
