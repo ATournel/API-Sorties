@@ -17,11 +17,16 @@
 
 * [Desktop Model also made on Marvelapp](https://marvelapp.com/53agga1/screen/50349625)
 
-#### ----- Development tools -----
+#### ----- Development languages -----
 
 * Java
-* Eclipse
 * Angular
-* VS Code
 * CSS
+
+#### ----- Development tools -----
+
+* Eclipse
+* Spring
+* Hibernate
+* VS Code
 * BootStrap
