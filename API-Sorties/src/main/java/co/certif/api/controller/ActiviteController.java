@@ -1,5 +1,7 @@
 package co.certif.api.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -13,12 +15,16 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.certif.api.model.Activite;
+import co.certif.api.model.Tag;
 import co.certif.api.repository.ActiviteRepository;
 import co.certif.api.repository.TagRepository;
+import co.certif.api.repository.UserRepository;
 
 @CrossOrigin("http://localhost:4200")
 @RestController
@@ -29,16 +35,10 @@ public class ActiviteController {
 	private ActiviteRepository actiRepo;
 	@Autowired
 	private TagRepository tagRepo;
+	@Autowired
+	private UserRepository userRepo;
 	
-	/*
 	//Read all activities
-	@CrossOrigin
-	@GetMapping("/all")
-	@OrderBy(clause = "date_activite DESC")
-	public List<Activite> getActivites() {
-		return actiRepo.findAll(new Sort(Sort.Direction.DESC, "dateActivite"));
-	}
-	*/
 	@CrossOrigin
 	@GetMapping("/all")
 	public Page<Activite> getActivites(int page, int size, Sort sort) {
@@ -68,9 +68,35 @@ public class ActiviteController {
 		return actiRepo.findByTag(tagRepo.findOne(idTag), new Sort(Sort.Direction.DESC, "dateActivite"));
 	}
 	
+	//Get User Suggestions
+	@CrossOrigin
+	@GetMapping("/sugg/user={idUser}")
+	List<Activite> findByUserTags(@PathVariable(value="idUser") Long idUser) {
+		List<Tag> userTags = (List<Tag>) userRepo.findOne(idUser).getTags();
+		List<Activite> userSuggestions = new ArrayList<Activite>();
+		for(int i=0; i<userTags.size(); i++) {
+			userSuggestions.addAll(actiRepo.findByTag(userTags.get(i), new Sort(Sort.Direction.DESC, "dateActivite")));
+		}
+		return userSuggestions;
+	}
+	
+	//Create an activity
+	@CrossOrigin
+	@PostMapping("/new")
+	public void createActivite(@RequestBody Activite activite) {
+		actiRepo.save(activite);
+	}
+	
+	//Update an activity
+	@CrossOrigin
+	@PostMapping("/update")
+	public void updateActivite(@RequestBody Activite activite) {
+		actiRepo.updateActivite(activite);
+	}
+	
 	//Delete an activity using its id
 	@CrossOrigin
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/delete/{id}")
 	public void deleteActivite(@PathVariable(value="id") Long id) {
 		actiRepo.delete(id);
 	}

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -30,6 +31,12 @@ public class User {
 	@OneToMany
 	private Collection<Tag> tags;
 	
+	public Collection<Tag> getTags() {
+		return tags;
+	}
+	public void setTags(Collection<Tag> tags) {
+		this.tags = tags;
+	}
 	public Long getIdUser() {
 		return idUser;
 	}
